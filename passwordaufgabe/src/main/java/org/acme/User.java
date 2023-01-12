@@ -1,5 +1,6 @@
 package org.acme;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,5 +10,6 @@ public class User {
     @Id
     @Column(name = "id", nullable = false)
     private int id;
+    public String username;
 
 }
