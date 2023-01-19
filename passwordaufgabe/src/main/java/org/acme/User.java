@@ -1,15 +1,23 @@
 package org.acme;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 @Entity
+@Getter
+@Setter
+@Table(name = "userPass")
 public class User {
     @Id
-    @Column(name = "id", nullable = false)
-    private int id;
-    public String username;
+    private long id;
 
+    private String hashedPassword;
+
+    public String username;
+    public String telephoneNumber;
 }
