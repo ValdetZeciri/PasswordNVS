@@ -1,4 +1,3 @@
 org\acme\User.class
 org\acme\UserResource.class
-org\acme\UserService.class
 org\acme\UserRepository.class

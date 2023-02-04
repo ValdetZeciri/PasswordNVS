@@ -14,6 +14,7 @@ import java.security.spec.InvalidKeySpecException;
 @Table(name = "userPass")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String hashedPassword;
