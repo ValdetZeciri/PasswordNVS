@@ -20,13 +20,19 @@ public class Main {
 
         @Override
         public int run(String... args) throws Exception {
-            System.out.println("Do startup logic here");
-            User user = new User();
-            user.setUsername("Valdet");
-            user.setHashedPassword("test1234");
-            user.setTelephoneNumber("06766105547");
-            userRepository.create(user);
-            userRepository.resetPassword("Valdet");
+            String input="";
+            do {
+                Scanner scanner = new Scanner(System.in);
+                System.out.println("1. Password vergessen");
+                System.out.println("0. Abbrechen");
+                input = scanner.nextLine();
+                if(input.equals("1")){
+                    System.out.println("Bitte geben Sie ihren Username ein: ");
+                    String userName = scanner.nextLine();
+                    userRepository.resetPassword(userName);
+                }
+            }while (input.equals("0"));
+
             Quarkus.waitForExit();
             return 0;
         }
