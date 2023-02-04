@@ -6,12 +6,16 @@ import org.acme.User;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.Random;
+import java.util.Scanner;
 
 @ApplicationScoped
 public class UserRepository {
@@ -24,6 +28,7 @@ public class UserRepository {
         String hashedPassword = hashPassword(user.getHashedPassword());
         user.setHashedPassword(hashedPassword);
         entityManager.persist(user);
+        entityManager.flush();
         return user;
     }
 
@@ -72,5 +77,32 @@ public class UserRepository {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void resetPassword(String userName){
+        Random random = new Random();
+        String generatedString = String.format("%04d", random.nextInt(10000));
+        System.out.println(generatedString);
+
+        Scanner sc= new Scanner(System.in);
+        System.out.println("Bitte geben Sie den den einmaligen Code ein:");
+        String input = sc.nextLine();
+
+        if(input.equals(generatedString)){
+            System.out.println("Bitte geben Sie ihr neues Password ein:");
+            String newPassword = sc.nextLine();
+            updatePassword(userName, newPassword);
+            System.out.println("Password aktualisiert!");
+        }
+        else{
+            System.out.println("Falsche Eingabe!");
+        }
+    }
+
+    @Transactional
+    public void updatePassword(String userName, String newPassword){
+        String hashedPassword = hashPassword(newPassword);
+
+        entityManager.createQuery("UPDATE User SET hashedPassword = :newPassword WHERE username = :userName").setParameter("userName", userName).setParameter("newPassword", hashedPassword).executeUpdate();
     }
 }

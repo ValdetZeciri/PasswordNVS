@@ -11,7 +11,9 @@ import java.security.spec.InvalidKeySpecException;
 @Entity
 @Getter
 @Setter
-@Table(name = "userPass")
+@NamedQueries(
+        @NamedQuery(name="updatePassword", query = "UPDATE User SET hashedPassword = :newPassword WHERE username = :userName")
+)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

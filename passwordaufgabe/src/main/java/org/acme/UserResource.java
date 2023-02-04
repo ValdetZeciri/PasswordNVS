@@ -8,10 +8,13 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.Random;
+import java.util.Scanner;
 
 @Path("/users")
 public class UserResource {
@@ -81,5 +84,10 @@ public class UserResource {
             return "geht nicht";
         }
 
+    }
+    @POST
+    @Path("/forgotPassword")
+    public void changePassword(String userName){
+        userRepository.resetPassword(userName);
     }
 }
